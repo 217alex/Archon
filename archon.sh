@@ -64,10 +64,38 @@ function filesystems() {
 		done
 }
 ########Filesystem End ######################
+########Kernels Start ######################
+function kernels() {
+	PS3="Επιλέξτε kernel : "
+	options=("Stable" "Hardened" "Longterm" "Zen")
+	select opt in "${options[@]}"
+	do
+		case $opt in
+			"Stable")
+			  kernel="linux"
+				break
+				;;
+			"Hardened")
+			  kernel="linux-hardened"
+				break
+				;;
+			"Longterm")
+				kernel="linux-lts"
+				break
+				;;
+				"Zen")
+					kernel="linux-zen"
+					break
+					;;
+				*) echo "Invalid option $Reply";;
+			esac
+		done
+}
+########Kernels End ######################
 function chroot_stage {
 	echo
 	echo '---------------------------------------------'
-	echo '7 - Τροποποίηση Γλώσσας και Ζώνης Ώρας       '
+	echo '8 - Τροποποίηση Γλώσσας και Ζώνης Ώρας       '
 	echo '                                             '
 	echo 'Θα ρυθμίσουμε το σύστημα να είναι στα Αγγλικά'
 	echo 'και ζώνη ώρας την Ελλάδα/Αθήνα               '
@@ -83,7 +111,7 @@ function chroot_stage {
 	echo
 	echo
 	echo '---------------------------------------------'
-	echo '8 - Ρύθμιση Hostname                         '
+	echo '9 - Ρύθμιση Hostname                         '
 	echo '                                             '
 	echo 'Θα χρειαστεί να δώσετε ένα όνομα στον        '
 	echo 'Υπολογιστή σας                               '
@@ -95,7 +123,7 @@ function chroot_stage {
 	echo
 	sleep 2
 	echo '-------------------------------------'
-	echo '9 - Ρύθμιση της κάρτας δικτύου       '
+	echo '10 - Ρύθμιση της κάρτας δικτύου       '
 	echo '                                     '
 	echo 'Θα ρυθμιστεί η κάρτα δικτύου σας ώστε'
 	echo 'να ξεκινάει αυτόματα με την εκκίνηση '
@@ -121,7 +149,7 @@ function chroot_stage {
 	sleep 2
 	echo
 	echo '-------------------------------------'
-	echo '10 - Ρύθμιση χρήστη ROOT             '
+	echo '11 - Ρύθμιση χρήστη ROOT             '
 	echo '                                     '
 	echo 'Αλλαγή συνθηματικού(password)        '
 	echo 'του root χρήστη                      '
@@ -137,19 +165,6 @@ function chroot_stage {
 	done													#
 	#########################################################
 	sleep 2
-	echo
-	echo
-	echo '---------------------------------------'
-	echo '11 - Linux LTS kernel (προαιρετικό)    '
-	echo '                                       '
-	echo 'Μήπως προτιμάτε τον LTS πυρήνα Linux  '
-	echo 'ο οποίος είναι πιο σταθερός και μακράς '
-	echo 'υποστήριξης;                           '
-	echo '---------------------------------------'
-	sleep 2
-	if YN_Q "Θέλετε να εγκαταστήσετε πυρήνα μακράς υποστήριξης (Long Term Support) (y/n); "; then
-		sudo pacman -S --noconfirm linux-lts
-	fi
 	echo
 	echo
 	echo '---------------------------------------'
@@ -420,16 +435,23 @@ sleep 1
 echo
 echo
 echo '--------------------------------------------------------'
-echo ' 5 - Εγκατάσταση της Βάσης του Arch Linux               '
+echo ' 5 - Eπιλογή πυρήνα (kernel)                '
+echo '--------------------------------------------------------'
+kernels
+sleep 1
+echo
+echo
+echo '--------------------------------------------------------'
+echo ' 6 - Εγκατάσταση της Βάσης του Arch Linux               '
 echo '                                                        '
 echo ' Αν δεν έχετε κάνει ακόμα καφέ τώρα είναι η ευκαιρία... '
 echo '--------------------------------------------------------'
 sleep 1
-pacstrap /mnt base base-devel linux linux-firmware dhcpcd "$fsprogs"
+pacstrap /mnt base base-devel "$kernel" linux-firmware dhcpcd "$fsprogs"
 echo
 echo
 echo '--------------------------------------------------------'
-echo ' 6 - Ολοκληρώθηκε η βασική εγκατάσταση του Arch Linux   '
+echo ' 7 - Ολοκληρώθηκε η βασική εγκατάσταση του Arch Linux   '
 echo '                                                        '
 echo ' Τώρα θα γίνει είσοδος στο εγκατεστημένο Arch Linux     '
 echo '--------------------------------------------------------'
