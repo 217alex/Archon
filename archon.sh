@@ -97,41 +97,6 @@ function check_if_in_VM() {
     fi
     sleep 2
 }
-<<<<<<< HEAD
-########Filesystem End ######################
-########Kernels Start ######################
-function kernels() {
-	PS3="Επιλέξτε kernel : "
-	options=("Stable" "Hardened" "Longterm" "Zen")
-	select opt in "${options[@]}"
-	do
-		case $opt in
-			"Stable")
-			  kernel="linux"
-				break
-				;;
-			"Hardened")
-			  kernel="linux-hardened"
-				break
-				;;
-			"Longterm")
-				kernel="linux-lts"
-				break
-				;;
-				"Zen")
-					kernel="linux-zen"
-					break
-					;;
-				*) echo "Invalid option $Reply";;
-			esac
-		done
-}
-########Kernels End ######################
-function chroot_stage {
-	echo
-	echo '---------------------------------------------'
-	echo '8 - Τροποποίηση Γλώσσας και Ζώνης Ώρας       '
-=======
 
 
 function installer() {
@@ -300,7 +265,6 @@ function chroot_stage {
 	echo
 	echo '---------------------------------------------'
 	echo -e "${IGreen}7 - Τροποποίηση Γλώσσας και Ζώνης Ώρας${NC}"
->>>>>>> upstream/master
 	echo '                                             '
 	echo 'Θα ρυθμίσουμε το σύστημα να είναι στα Αγγλικά'
 	echo 'και ζώνη ώρας την Ελλάδα/Αθήνα               '
@@ -316,11 +280,7 @@ function chroot_stage {
 	echo
 	echo
 	echo '---------------------------------------------'
-<<<<<<< HEAD
-	echo '9 - Ρύθμιση Hostname                         '
-=======
 	echo -e "${IGreen}8 - Ρύθμιση Hostname${NC}           "
->>>>>>> upstream/master
 	echo '                                             '
 	echo 'Θα χρειαστεί να δώσετε ένα όνομα στον        '
 	echo 'Υπολογιστή σας                               '
@@ -336,11 +296,7 @@ function chroot_stage {
 	}> /etc/hosts
 	echo
 	echo '-------------------------------------'
-<<<<<<< HEAD
-	echo '10 - Ρύθμιση της κάρτας δικτύου       '
-=======
 	echo -e "${IGreen}9 - Ρύθμιση της κάρτας δικτύου${NC}"       
->>>>>>> upstream/master
 	echo '                                     '
 	echo 'Θα ρυθμιστεί η κάρτα δικτύου σας ώστε'
 	echo 'να ξεκινάει αυτόματα με την εκκίνηση '
@@ -369,11 +325,7 @@ function chroot_stage {
 	sleep 2
 	echo
 	echo '-------------------------------------'
-<<<<<<< HEAD
-	echo '11 - Ρύθμιση χρήστη ROOT             '
-=======
 	echo -e "${IGreen}10 - Ρύθμιση χρήστη ROOT${NC}"
->>>>>>> upstream/master
 	echo '                                     '
 	echo 'Αλλαγή συνθηματικού(password)        '
 	echo 'του root χρήστη                      '
@@ -389,9 +341,6 @@ function chroot_stage {
 	#########################################################
 	echo
 	echo '---------------------------------------'
-<<<<<<< HEAD
-	echo '12 - Ρύθμιση GRUB                      '
-=======
 	echo -e "${IGreen}11 - Linux LTS kernel (προαιρετικό)${NC}"
 	echo '                                       '
 	echo 'Μήπως προτιμάτε τον LTS πυρήνα Linux   '
@@ -405,7 +354,6 @@ function chroot_stage {
 	echo
 	echo '---------------------------------------'
 	echo -e "${IGreen}12 - Ρύθμιση GRUB${NC}        "
->>>>>>> upstream/master
 	echo '                                       '
 	echo 'Θα γίνει εγκατάσταση του μενού επιλογών'
 	echo 'εκκινησης GRUB Bootloader              '
@@ -795,35 +743,15 @@ sleep 1
 pacman -Syy
 echo
 echo '--------------------------------------------------------'
-<<<<<<< HEAD
-echo ' 5 - Eπιλογή πυρήνα (kernel)                '
-echo '--------------------------------------------------------'
-kernels
-sleep 1
-echo
-echo
-echo '--------------------------------------------------------'
-echo ' 6 - Εγκατάσταση της Βάσης του Arch Linux               '
-=======
 echo -e "${IGreen} 5 - Εγκατάσταση της Βάσης του Arch Linux${NC} "
->>>>>>> upstream/master
 echo '                                                        '
 echo -e "${IYellow} Αν δεν έχετε κάνει ακόμα καφέ τώρα είναι η ευκαιρία...${NC}"
 echo '--------------------------------------------------------'
-<<<<<<< HEAD
-sleep 1
-pacstrap /mnt base base-devel "$kernel" linux-firmware dhcpcd "$fsprogs"
-=======
 sleep 2
 pacstrap /mnt base base-devel linux linux-firmware dhcpcd "$fsprogs"
->>>>>>> upstream/master
 echo
 echo '--------------------------------------------------------'
-<<<<<<< HEAD
-echo ' 7 - Ολοκληρώθηκε η βασική εγκατάσταση του Arch Linux   '
-=======
 echo -e "${IGreen} 6 - Ολοκληρώθηκε η βασική εγκατάσταση του Arch Linux${NC}"
->>>>>>> upstream/master
 echo '                                                        '
 echo ' Τώρα θα γίνει είσοδος στο εγκατεστημένο Arch Linux     '
 echo '--------------------------------------------------------'
