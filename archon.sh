@@ -634,6 +634,8 @@ if ping -c 3 www.google.com &> /dev/null; then
   echo -e "${IYellow}Υπάρχει σύνδεση στο διαδίκτυο${NC}"
   echo ' Η εγκατάσταση θα συνεχιστεί'
   echo
+	echo -e "${IGreen} Ενημέρωση σου ρολογιού συστήματος${NC}"
+	timedatectl set-ntp true
 else
     echo
 	echo -e "${IRed}Δεν βρέθηκε σύνδεση στο διαδίκτυο! Συνδεθείτε στο διαδίκτυο και δοκιμάστε ξανά${NC}"
