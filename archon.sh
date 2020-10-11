@@ -114,6 +114,14 @@ function installer() {
     fi
 
 }
+
+#
+#Function for gdm & NetworkManager
+function gnm() {
+	sudo systemctl enable gdm
+	sudo systemctl enable NetworkManager
+}
+#
 #  Check Net Connection | If it is off , exit immediately
 #
 function check_net_connection() {
@@ -154,11 +162,13 @@ function initialize_desktop_selection() {
 								"gnome")
 														echo -e "${IGreen}Εγκατάσταση GNOME Desktop Environment ...\n${NC}"
 														installer "GNOME Desktop" gnome
+														gnm
 														exit 0
 														;;
 								"gnome-extra")
 														echo -e "${IGreen}Εγκατάσταση GNOME Desktop Environment και επιπροσθετες επιλογες  ... \n${NC}"
 														installer "Full GNOME Desktop" gnome gnome-extra
+														gnm
 														exit 0
 														;;
 								"Έξοδος")
@@ -170,8 +180,6 @@ function initialize_desktop_selection() {
 														;;
 										esac
 								done
-                sudo systemctl enable gdm
-                sudo systemctl enable NetworkManager
                 exit 0
                 ;;
  		"Mate")
