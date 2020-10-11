@@ -24,7 +24,7 @@ NC='\033[0m'
 
 
 ########Filesystem Function##################
-function filesystems(){ 
+function filesystems(){
 	PS3="Επιλέξτε filesystem: "
     options=("ext4" "XFS (experimental)" "Btrfs" "F2FS (experimental)")
 	select opt in "${options[@]}"
@@ -155,7 +155,7 @@ function initialize_desktop_selection() {
                 exit 0
                 ;;
  		"Mate")
-                echo -e "${IGreen}Εγκατάσταση Mate Desktop Environment ... \n${NC}" 
+                echo -e "${IGreen}Εγκατάσταση Mate Desktop Environment ... \n${NC}"
                 installer "Mate Desktop" mate mate-extra networkmanager network-manager-applet
                 installer "LightDM Display Manager" lightdm lightdm-gtk-greeter
                 sudo systemctl enable lightdm
@@ -187,7 +187,7 @@ function initialize_desktop_selection() {
         "LXQt")
                 echo -e "${IGreen}Εγκατάσταση LXQt Desktop Environment ... \n${NC}"
                 installer "LXQt Desktop" lxqt breeze-icons
-                installer "SDDM Display Manager" sddm                
+                installer "SDDM Display Manager" sddm
                 sudo systemctl enable sddm
                 sudo systemctl enable NetworkManager
                 exit 0
@@ -195,7 +195,7 @@ function initialize_desktop_selection() {
         "Cinnamon")
                 echo -e "${IGreen}Εγκατάσταση Cinnamon Desktop Environment ... \n${NC}"
                 installer "Cinnamon Desktop" cinnamon xterm networkmanager
-                installer "LightDM Display Manager" lightdm lightdm-gtk-greeter               
+                installer "LightDM Display Manager" lightdm lightdm-gtk-greeter
                 sudo systemctl enable lightdm
                 sudo systemctl enable NetworkManager
                 exit 0
@@ -296,7 +296,7 @@ function chroot_stage {
 	}> /etc/hosts
 	echo
 	echo '-------------------------------------'
-	echo -e "${IGreen}9 - Ρύθμιση της κάρτας δικτύου${NC}"       
+	echo -e "${IGreen}9 - Ρύθμιση της κάρτας δικτύου${NC}"
 	echo '                                     '
 	echo 'Θα ρυθμιστεί η κάρτα δικτύου σας ώστε'
 	echo 'να ξεκινάει αυτόματα με την εκκίνηση '
@@ -341,18 +341,6 @@ function chroot_stage {
 	#########################################################
 	echo
 	echo '---------------------------------------'
-	echo -e "${IGreen}11 - Linux LTS kernel (προαιρετικό)${NC}"
-	echo '                                       '
-	echo 'Μήπως προτιμάτε τον LTS πυρήνα Linux   '
-	echo 'ο οποίος είναι πιο σταθερός και μακράς '
-	echo 'υποστήριξης;                           '
-	echo '---------------------------------------'
-	sleep 2
-	if YN_Q "Θέλετε να εγκαταστήσετε πυρήνα μακράς υποστήριξης (Long Term Support) (y/n); "; then
-		installer "Linux Lts Kernel" linux-lts
-	fi
-	echo
-	echo '---------------------------------------'
 	echo -e "${IGreen}12 - Ρύθμιση GRUB${NC}        "
 	echo '                                       '
 	echo 'Θα γίνει εγκατάσταση του μενού επιλογών'
@@ -363,9 +351,9 @@ function chroot_stage {
 	installer "Gurb Bootloader" grub efibootmgr os-prober
 	lsblk --noheadings --raw -o NAME,MOUNTPOINT | awk '$1~/[[:digit:]]/ && $2 == ""' | grep -oP sd\[a-z]\[1-9]+ | sed 's/^/\/dev\//' > disks.txt
 	filesize=$(stat --printf="%s" disks.txt | tail -n1)
-	
-	cd run 
-	mkdir media 
+
+	cd run
+	mkdir media
 	cd media
 	cd /
 	if [ "$filesize" -ne 0 ]; then
@@ -383,7 +371,7 @@ function chroot_stage {
 	fi
 	sleep 5
 	rm disks.txt
-	
+
 	if [ -d /sys/firmware/efi ]; then
 		grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=arch_grub --recheck
 		grub-mkconfig -o /boot/grub/grub.cfg
@@ -431,7 +419,7 @@ function chroot_stage {
 		read -rp "Τι μέγεθος να έχει το swapfile; (Σε MB) : " swap_size
 		echo
         while :		# Δικλείδα ασφαλείας αν ο χρήστης προσθέσει μεγάλο νούμερο.
-		do 
+		do
 			if [ "$swap_size" -ge 512 ] && [ "$swap_size" -le 8192 ]; then
 				break
 			else
@@ -446,7 +434,7 @@ function chroot_stage {
 			mount -o subvol=@swap "$diskvar""$diskletter""$disknumber" /swap
 			truncate -s 0 /swap/swapfile
 			chattr +C /swap/swapfile
-			btrfs property set /swap/swapfile compression none 
+			btrfs property set /swap/swapfile compression none
 			dd if=/dev/zero of=/swap/swapfile bs=1M count="$swap_size" status=progress
 			chmod 600 /swap/swapfile
 			mkswap /swap/swapfile
@@ -539,7 +527,7 @@ lsblk --noheadings --raw | grep disk | awk '{print $1}' > disks
 while true
 do
 echo "---------------------------------------------------------"
-num=0 
+num=0
 
 while IFS='' read -r line || [[ -n "$line" ]]; do
     num=$(( num + 1 ))
@@ -549,7 +537,7 @@ echo "---------------------------------------------------------"
 echo
 read -rp "Επιλέξτε δίσκο για εγκατάσταση (Q/q για έξοδο): " input
 
-if [[ $input = "q" ]] || [[ $input = "Q" ]] 
+if [[ $input = "q" ]] || [[ $input = "Q" ]]
    	then
         echo
 	    echo -e "${IYellow}Έξοδος...${NC}"
@@ -690,7 +678,7 @@ if [ -d /sys/firmware/efi ]; then  #Η αρχική συνθήκη παραμέ�
 	parted "$diskvar" mklabel gpt
 	parted "$diskvar" mkpart ESP fat32 1MiB 513MiB
 	parted "$diskvar" mkpart primary ext4 513MiB 100%
-	disknumber="1"		# Η τιμή 1 γιατί θέλουμε το 1ο partition 
+	disknumber="1"		# Η τιμή 1 γιατί θέλουμε το 1ο partition
 	mkfs.fat -F32 "$diskvar""$diskletter""$disknumber"
 	disknumber="2"		# Στο δεύτερο partition κάνει mount το /mnt στην filesystem.
 	filesystems
@@ -745,10 +733,34 @@ echo
 echo '--------------------------------------------------------'
 echo -e "${IGreen} 5 - Εγκατάσταση της Βάσης του Arch Linux${NC} "
 echo '                                                        '
+PS3="Επιλογή kernel: "
+options=("linux" "linux-hardened" "linux-lts" "linux-zen" "Quit")
+select opt in "${options[@]}"
+do
+  case $opt in
+    "linux")
+      kernel0="linux"
+      ;;
+    "linux-hardened")
+      kernel1="linux-hardened"
+      ;;
+    "linux-lts")
+      kernel2="linux-lts"
+      ;;
+    "linux-zen")
+      kernel3="linux-zen"
+      ;;
+    "Quit")
+      break
+      ;;
+    *) echo -e "${IRed}Οι επιλογές σας πρέπει να είναι [1 τη φορά, και Quit για να τερματίσετε]. Παρακαλώ προσπαθήστε ξανα!${NC}";;
+  esac
+done
+echo '                                                        '
 echo -e "${IYellow} Αν δεν έχετε κάνει ακόμα καφέ τώρα είναι η ευκαιρία...${NC}"
 echo '--------------------------------------------------------'
 sleep 2
-pacstrap /mnt base base-devel linux linux-firmware dhcpcd "$fsprogs"
+pacstrap /mnt base base-devel linux-firmware dhcpcd "$fsprogs" $kernel0 $kernel1 $kernel2 $kernel3
 echo
 echo '--------------------------------------------------------'
 echo -e "${IGreen} 6 - Ολοκληρώθηκε η βασική εγκατάσταση του Arch Linux${NC}"
