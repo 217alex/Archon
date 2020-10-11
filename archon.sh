@@ -218,20 +218,63 @@ function initialize_desktop_selection() {
 								exit 0
 								;;
         "Deepin")
-                echo -e "${IGreen}Εγκατάσταση Deepin Desktop Environment ...\n${NC}"
-                installer "Deepin Desktop" deepin deepin-extra networkmanager
-                sudo systemctl enable lightdm
-                sudo systemctl enable NetworkManager
-                exit 0
-                ;;
+								PS3='Επιλέξτε τα επιθυμητα πακετα: '
+								options=("deepin" "deepin-extra" "Έξοδος")
+								select choice in "${options[@]}"
+								do
+									case "$choice" in
+								"deepin")
+														echo -e "${IGreen}Εγκατάσταση Deepin Desktop Environment ...\n${NC}"
+														installer "Deepin Desktop" deepin
+														lnm
+														exit 0
+														;;
+								"deepin-extra")
+														echo -e "${IGreen}Εγκατάσταση Deepin Desktop Environment και επιπροσθετα πακετα  ... \n${NC}"
+														installer "Full Deepin Desktop" deepin deepin-extra
+														lnm
+														exit 0
+														;;
+								"Έξοδος")
+														echo -e "${IYellow}Έξοδος όπως επιλέχθηκε από το χρήστη ${USER}${NC}"
+														exit 0
+														;;
+												*)
+														echo -e "${IRed}Οι επιλογές σας πρέπει να είναι [1 ~ 14]. Παρακαλώ προσπαθήστε ξανα!${NC}"
+														;;
+										esac
+								done
+								exit 0
+								;;
         "Xfce")
-                echo -e "${IGreen}Εγκατάσταση Xfce Desktop Environment ... \n${NC}"
-                installer "Xfce Desktop" xfce4 xfce4-goodies pavucontrol networkmanager network-manager-applet
-                installer "LightDM Display Manager" lightdm lightdm-gtk-greeter
-                sudo systemctl enable lightdm
-                sudo systemctl enable NetworkManager
-                exit 0
-                ;;
+								PS3='Επιλέξτε τα επιθυμητα πακετα: '
+								options=("xfce4" "xfce-goodies" "Έξοδος")
+								select choice in "${options[@]}"
+								do
+									case "$choice" in
+								"xfce4")
+														echo -e "${IGreen}Εγκατάσταση XFCE Desktop Environment ...\n${NC}"
+														installer "XFCE Desktop" xfce4
+														lnm
+														exit 0
+														;;
+								"xfce4-goodies")
+														echo -e "${IGreen}Εγκατάσταση XFCE Desktop Environment και επιπροσθετα πακετα  ... \n${NC}"
+														installer "Full XFCE Desktop" xfce4 xfce4-goodies
+														lnm
+														exit 0
+														;;
+								"Έξοδος")
+														echo -e "${IYellow}Έξοδος όπως επιλέχθηκε από το χρήστη ${USER}${NC}"
+														exit 0
+														;;
+												*)
+														echo -e "${IRed}Οι επιλογές σας πρέπει να είναι [1 ~ 14]. Παρακαλώ προσπαθήστε ξανα!${NC}"
+														;;
+										esac
+								done
+								exit 0
+								;;
         "KDE")
                 echo -e "${IGreen}Εγκατάσταση KDE Desktop Environment ... \n${NC}"
                 installer "KDE Desktop" plasma-meta konsole dolphin
