@@ -118,8 +118,14 @@ function installer() {
 #
 #Function for gdm & NetworkManager
 function gnm() {
-	sudo systemctl enable gdm
-	sudo systemctl enable NetworkManager
+	systemctl enable gdm
+	systemctl enable NetworkManager
+}
+#Function for lightdm & NetworkManager
+function lnm() {
+	pacman -S networkmanager network-manager-applet lightdm lightdm-gtk-greeter
+	systemctl enable lightdm
+	systemctl enable NetworkManager
 }
 #
 #  Check Net Connection | If it is off , exit immediately
@@ -154,8 +160,8 @@ function initialize_desktop_selection() {
 	do
     	case "$choice" in
 		"GNOME")
-								PS3='Επιλέξτε την επιθυμητα πακετα: '
-								options=("gnome" "gnome-extra" "Θέλω και τα δυο πακέτα" "Έξοδος")
+								PS3='Επιλέξτε τα επιθυμητα πακετα: '
+								options=("gnome" "gnome-extra" "Έξοδος")
 								select choice in "${options[@]}"
 								do
 									case "$choice" in
@@ -166,7 +172,7 @@ function initialize_desktop_selection() {
 														exit 0
 														;;
 								"gnome-extra")
-														echo -e "${IGreen}Εγκατάσταση GNOME Desktop Environment και επιπροσθετες επιλογες  ... \n${NC}"
+														echo -e "${IGreen}Εγκατάσταση GNOME Desktop Environment και επιπροσθετα πακετα  ... \n${NC}"
 														installer "Full GNOME Desktop" gnome gnome-extra
 														gnm
 														exit 0
@@ -183,13 +189,34 @@ function initialize_desktop_selection() {
                 exit 0
                 ;;
  		"Mate")
-                echo -e "${IGreen}Εγκατάσταση Mate Desktop Environment ... \n${NC}"
-                installer "Mate Desktop" mate mate-extra networkmanager network-manager-applet
-                installer "LightDM Display Manager" lightdm lightdm-gtk-greeter
-                sudo systemctl enable lightdm
-                sudo systemctl enable NetworkManager
-                exit 0
-                ;;
+								PS3='Επιλέξτε τα επιθυμητα πακετα: '
+								options=("mate" "mate-extra" "Έξοδος")
+								select choice in "${options[@]}"
+								do
+									case "$choice" in
+								"mate")
+														echo -e "${IGreen}Εγκατάσταση Mate Desktop Environment ...\n${NC}"
+														installer "Mate Desktop" mate
+														lnm
+														exit 0
+														;;
+								"mate-extra")
+														echo -e "${IGreen}Εγκατάσταση Mate Desktop Environment και επιπροσθετα πακετα  ... \n${NC}"
+														installer "Full Mate Desktop" mate mate-extra
+														lnm
+														exit 0
+														;;
+								"Έξοδος")
+														echo -e "${IYellow}Έξοδος όπως επιλέχθηκε από το χρήστη ${USER}${NC}"
+														exit 0
+														;;
+												*)
+														echo -e "${IRed}Οι επιλογές σας πρέπει να είναι [1 ~ 14]. Παρακαλώ προσπαθήστε ξανα!${NC}"
+														;;
+										esac
+								done
+								exit 0
+								;;
         "Deepin")
                 echo -e "${IGreen}Εγκατάσταση Deepin Desktop Environment ...\n${NC}"
                 installer "Deepin Desktop" deepin deepin-extra networkmanager
