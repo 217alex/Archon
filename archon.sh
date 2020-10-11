@@ -321,24 +321,20 @@ function initialize_desktop_selection() {
                 echo -e "${IGreen}Εγκατάσταση LXQt Desktop Environment ... \n${NC}"
                 installer "LXQt Desktop" lxqt breeze-icons
                 installer "SDDM Display Manager" sddm
-                sudo systemctl enable sddm
-                sudo systemctl enable NetworkManager
+                snm
                 exit 0
                 ;;
         "Cinnamon")
                 echo -e "${IGreen}Εγκατάσταση Cinnamon Desktop Environment ... \n${NC}"
                 installer "Cinnamon Desktop" cinnamon xterm networkmanager
-                installer "LightDM Display Manager" lightdm lightdm-gtk-greeter
-                sudo systemctl enable lightdm
-                sudo systemctl enable NetworkManager
+                lnm
                 exit 0
                 ;;
         "Budgie")
                 echo -e "${IGreen}Εγκατάσταση Budgie Desktop Environment ... \n${NC}"
                 installer "Budgie Desktop" budgie-desktop budgie-extras xterm networkmanager network-manager-applet
                 installer "LightDM Display Manager" lightdm lightdm-gtk-greeter
-                sudo systemctl enable lightdm
-                sudo systemctl enable NetworkManager
+                lnm
                 exit 0
                 ;;
         "i3")
@@ -359,8 +355,7 @@ function initialize_desktop_selection() {
         "UKUI")
                 echo -e "${IGreen}Εγκατάσταση UKUI Desktop Environment ... \n${NC}"
                 installer "UKUI Desktop" ukui xterm networkmanager network-manager-applet
-                sudo systemctl enable lightdm
-                sudo systemctl enable NetworkManager
+                lnm
                 exit 0
                 ;;
         "Fluxbox")
