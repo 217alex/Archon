@@ -141,15 +141,35 @@ function initialize_desktop_selection() {
     installer "Xorg Server" xorg xorg-server xorg-xinit alsa-utils alsa-firmware pulseaudio pulseaudio-alsa noto-fonts	# Εγκατάσταση Xorg Server και Audio server
     echo
     PS3='Επιλέξτε ένα από τα διαθέσιμα γραφικά περιβάλλοντα : '
-
 	options=("GNOME" "Mate" "Deepin" "Xfce" "KDE" "LXQt" "Cinnamon" "Budgie" "i3" "Enlightenment" "UKUI" "Fluxbox" "Sugar" "Twm" "Έξοδος")
 	select choice in "${options[@]}"
-
 	do
     	case "$choice" in
 		"GNOME")
-                echo -e "${IGreen}Εγκατάσταση GNOME Desktop Environment ...\n${NC}"
-                installer "GNOME Desktop" gnome gnome-extra
+								PS3='Επιλέξτε την επιθυμητα πακετα: '
+								options=("gnome" "gnome-extra" "Θέλω και τα δυο πακέτα" "Έξοδος")
+								select choice in "${options[@]}"
+								do
+									case "$choice" in
+								"gnome")
+														echo -e "${IGreen}Εγκατάσταση GNOME Desktop Environment ...\n${NC}"
+														installer "GNOME Desktop" gnome
+														exit 0
+														;;
+								"gnome-extra")
+														echo -e "${IGreen}Εγκατάσταση GNOME Desktop Environment και επιπροσθετες επιλογες  ... \n${NC}"
+														installer "Full GNOME Desktop" gnome gnome-extra
+														exit 0
+														;;
+								"Έξοδος")
+														echo -e "${IYellow}Έξοδος όπως επιλέχθηκε από το χρήστη ${USER}${NC}"
+														exit 0
+														;;
+												*)
+														echo -e "${IRed}Οι επιλογές σας πρέπει να είναι [1 ~ 14]. Παρακαλώ προσπαθήστε ξανα!${NC}"
+														;;
+										esac
+								done
                 sudo systemctl enable gdm
                 sudo systemctl enable NetworkManager
                 exit 0
