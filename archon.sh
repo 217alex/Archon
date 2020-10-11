@@ -127,6 +127,12 @@ function lnm() {
 	systemctl enable lightdm
 	systemctl enable NetworkManager
 }
+#Function for lightdm & NetworkManager
+function snm() {
+	pacman -S networkmanager plasma-nm
+	systemctl enable sddm
+	systemctl enable NetworkManager
+}
 #
 #  Check Net Connection | If it is off , exit immediately
 #
@@ -276,6 +282,43 @@ function initialize_desktop_selection() {
 								exit 0
 								;;
         "KDE")
+								PS3='Επιλέξτε τα επιθυμητα πακετα: '
+								options=("plasma-meta" "plasma" "plasma-desktop" "Έξοδος")
+								select choice in "${options[@]}"
+								do
+									case "$choice" in
+								"plasma-desktop")
+														echo -e "${IGreen}Εγκατάσταση KDE Desktop Environment ... \n${NC}"
+														installer "KDE Desktop(bare minimum)" plasma-desktop
+														pacman -S sddm
+														snm
+														exit 0
+														;;
+								"plasma")
+														echo -e "${IGreen}Εγκατάσταση KDE Desktop Environment και επιπροσθετα πακετα  ... \n${NC}"
+														installer "KDE Desktop" plasma
+														snm
+														exit 0
+														;;
+								"plasma-meta")
+														echo -e "${IGreen}Εγκατάσταση Full KDE Desktop Environment ...\n${NC}"
+														installer "Full KDE Desktop" plasma-meta
+														snm
+														exit 0
+														;;
+								"Έξοδος")
+														echo -e "${IYellow}Έξοδος όπως επιλέχθηκε από το χρήστη ${USER}${NC}"
+														exit 0
+														;;
+												*)
+														echo -e "${IRed}Οι επιλογές σας πρέπει να είναι [1 ~ 14]. Παρακαλώ προσπαθήστε ξανα!${NC}"
+														;;
+										esac
+								done
+								exit 0
+								;;
+
+
                 echo -e "${IGreen}Εγκατάσταση KDE Desktop Environment ... \n${NC}"
                 installer "KDE Desktop" plasma-meta konsole dolphin
                 sudo systemctl enable sddm
