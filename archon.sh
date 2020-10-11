@@ -317,14 +317,6 @@ function initialize_desktop_selection() {
 								done
 								exit 0
 								;;
-
-
-                echo -e "${IGreen}Εγκατάσταση KDE Desktop Environment ... \n${NC}"
-                installer "KDE Desktop" plasma-meta konsole dolphin
-                sudo systemctl enable sddm
-                sudo systemctl enable NetworkManager
-                exit 0
-                ;;
         "LXQt")
                 echo -e "${IGreen}Εγκατάσταση LXQt Desktop Environment ... \n${NC}"
                 installer "LXQt Desktop" lxqt breeze-icons
